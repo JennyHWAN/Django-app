@@ -47,7 +47,7 @@ ps. I've used `virtualenv` in place of `venv`, the functionality are similar but
 - run migration: `python3 manage.py migrate`
 - Write some python testing code in a python script file to test my model in `lab2_ormtemplate/test.py`
 - check whether the test obj was inserted correctly: `python3 test.py`
-## lab3_template (folder name: lab2_template, reference IBM Full stack course, CRUD operation for Django database)
+## lab3_template (ori name: lab2_template, reference: IBM Full stack course, CRUD operation for Django database)
 - Download the code template for this lab:
     ```
     wget "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-CD0251EN-SkillsNetwork/labs/m3_django_orm/lab2_template.zip"
@@ -91,3 +91,40 @@ ps. I've used `virtualenv` in place of `venv`, the functionality are similar but
 - Read all courses: `read_courses.py` and run `python3 read_courses.py`
 - Query instructors with filters to select subsets of instructors meeting some certain criterions in `read_instructor.py` and run: `python3 read_instructor.py`
 - Query learners with filters to select subsets of learners meeting some certain criterions in `read_learners.py`
+## lab4_template (ori name: lab3_template, reference: IBM Full stack course, Activate Models for an onlinecourse app)
+- Download code template for lab4, remember to switch the name for the folder inside is called lab3 which is conflict with the previous lab. Ps. if you want to change the name of the file, run `mv [oldname] [newname]`:
+    ```
+    wget "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-CD0251EN-SkillsNetwork/labs/m3_django_orm/lab3_template.zip"  
+    unzip lab3_template.zip
+    rm lab3_template.zip
+    ```
+- As usual, change the `setting.py` file to setup the database server.
+- To summarize the relationships of these models:
+    1. Learner and Instructor models are inherited from User model with One-To-One relationship
+    2. Lesson has One-To-Many relationship with Course
+    3. Instructor has Many-To-Many with Course
+    4. Learner has Many-To-Many with Course model via Enrollment
+- Activate the models:
+    ```
+    pip install virtualenv
+    virtualenv djangoenv
+    source djangoenv/bin/activate
+    pip install Django psycopg2-binary
+    ```
+- Then generate migration scripts for app related_objects: `python3 manage.py makemigrations related_objects` -> `python3 manage.py migrate` -> `python3 write.py`
+- Making querying span relationships in `read_course_instructor.py`: 
+    <ol>
+    <li>Get courses taught by Instructor Yan, via both forward (explicit) and backward (implicit) access</li>
+    <li>Get the instructors of Cloud app dev course</li>
+    <li>Check the occupations of the courses taught by instructor Yan.</li>
+    </ol>
+    Then <code>python3 read_course_instructors.py</code>
+- Inside `read_enrollments.py`:
+    <ol>
+    <li>Get the user information about learner David</li>
+    <li>Get learner David information from user</li>
+    <li>Get all learners for Introduction to Python course</li>
+    <li>Check the occupation list for the courses taught by instructor Yan</li>
+    <li>Check which courses the developer learners are enrolled in Aug, 2020</li>
+    </ol>
+    Then <code>python3 read_enrollments.py</code>
