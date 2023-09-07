@@ -15,8 +15,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
+
+''' 
+last line of the urlpatterns adds the path obj to reference the onlinecourse app's url conf
+so when django recieves any urls with the suffix 'onlinecourse/' 
+it will try to match any urls in onlinecourse.urls.py file
+'''
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # write your code here:
+    path('onlinecourse/', include('onlinecourse.urls')),
 ]

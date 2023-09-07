@@ -3,16 +3,78 @@ This is created during learning Coursera course: IBM Full-stack development.
 
 `lab1_template` is this course's code template.
 
-## Start Django Project with a database(PostgreSQL)--for `postgresTest` folder
-reference: https://stackpython.medium.com/how-to-start-django-project-with-a-database-postgresql-aaa1d74659d8
+## Start Django Project with a database(PostgreSQL)--for `postgresTest` folder 
+First part is according to the reference: [Medium blog](https://stackpython.medium.com/how-to-start-django-project-with-a-database-postgresql-aaa1d74659d8)
 - clone this repo: `git clone git@github.com:JennyHWAN/Django-app.git`
 - enter the repo dir: `cd Django-app`
 - build virtual env for this dir: `python -m venv env`, where env is your virtual environment name
 ps. I've used `virtualenv` in place of `venv`, the functionality are similar but differ in implementation, where venv is a built-in module in python3 but virtualenv is a third-party tool
 - activate virtual env: `source env/bin/activate` (for mac) I don't know for sure but maybe for windows users just execute: `env/scripts/activate`
 - in this virtual environment: `pip install django`, and you could run `pip freeze` to check the version
-- create a project: `django-admin startproject postgresTest`
-- start this project: `python manage.py startapp testdb` which will create a folder called testdb. You could run `python manage.py runserver` to make sure it's good to run. `python manage.py` is the command that's used to run django
+- create a django project: `django-admin startproject postgresTest`, which is a container for django apps and settings.
+- start this project: `python manage.py startapp testdb` which will create a folder called testdb. You could run `python manage.py runserver` to make sure it's good to run. Then run `python manage.py`.
+
+Second part is according to the reference: IBM Full stack course
+- All the same but not in a virtual env, just your local machine:
+    ```
+    $ pip install django
+    $ django-admin startproject postfresTest
+    ```
+- The main file that django created for you:
+    ```
+    postgresTest/ # django project
+        manage.py
+        postgresTest/
+            __init__.py
+            settings.py # 
+            urls.py
+            ...
+    ```
+    <ol>
+    <li><code>manage.py</code> is the command line interface that's used to interact with the django project to start the server, migrate models and so on, where django project is the same as a python package.</li>
+    <li><code>settings.py</code> contains the settings and configurations for your django project.</li>
+    <li><code>urls.py</code> contains the url and routing definitions of your django app.</li>
+    </ol>
+- Inside postgresTest project directory, run `python manage.py startapp onlinecourse` and django will create a temp app structure and some important app files.
+- About onlinecourse:
+    ```
+    onlinecourse/
+        __init__.py
+        admin.py
+        models.py
+        views.py
+        urls.py
+        apps.py
+        migrations/
+        ...
+    ```
+    <ol>
+    <li><code>admin.py</code> includes everything you need to create and customize the admin site to manage user and content.</li>
+    <li><code>models.py</code> contains the data models and orm</li>
+    <li><code>view.py</code> contains view functions and classes to create views.</li>
+    <li><code>urls.py</code> contains URL declarations and routings for the app.</li>
+    <li><code>apps.py</code> contains the application configurations class.</li>
+    <li><code>migrations</code> folder contains scripts for model migration.</li>
+    </ol>
+- Include Django app to project: In `postgresTest/postgresTest/settings.py` find `INSTALLED_APPS` setting, add: `onlinecourse.apps.OnlinecourseConfig` to the list.
+- Setup database: also in `settings.py`, find `DATABASE` seetting, add database settings.
+- Till now, we have set up our app and database, we can define our django models as the orm components between objs and tables
+- Edit `onlinecourse/models.py` and run `python manage.py makemigrations onlinecourse`, (if you want to check the auto generated SQL, run `python manage.py sqlmigrate onlinecourse 0001`) then run the migration scripts: `python manage.py migrate`. Then you could find this `onlinecourse_course` table in your connected database, in my case: 
+    ```
+    $ psql
+    $ \c test
+    $ \dt
+    ```
+- Create a simple view and a hard-coded html template to present the course obj: inside of `onlinecourse/views.py`. 
+- Then we assiciate the course view with the url so django will route the request url to the view to be handled. URL routes are defined in a `url.conf` for each app as well as for the django project, to create a `url.conf` file for onlinecourse app, we first create `onlinecourse/urls.py`, where add a `path` obj to point a url route to the course_list view we created.
+- Next we point the route url conf file of `onlinecourse` app to the projects url conf file: `postgresTest/postgresTest/urls.py`. 
+- (Added by myself) In order to get the server run, you need to add data in `Course` model since the output in `views.py` needs the `course.name`, so similiar to the following labs, add `write.py` in the root `postgresTest` folder (same as `manage.py`'s route). Note that we need to change the `os.environ.setdefault`'s second parameter to `postgresTest.settings` (relative route) differ from the other labs below. Finally, run `python write.py` to execute it.
+- And voilà! Our django app is set up, check the result under `postgreTest/`(main) folder:
+    ```
+    $ python manage.py runserver
+    ```
+    which will start a development server locally on 127.0.0.1 with default port 8000 to host the django project and app.
+    ![img](/onlinecourse.png)
 
 ## For lab1_template (reference: IBM Full stack course)
 - `cd lab1_template`
