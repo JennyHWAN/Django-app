@@ -1,0 +1,11 @@
+{
+    "dev": {
+        "django_settings": "lab5_firstproject.settings",
+        "profile_name": "AdministratorAccess-394349669210",
+        "project_name": "lab5-firstproje",
+        "runtime": "python3.9",
+        "s3_bucket": "jennyhuang-django-app",
+        "aws_region": "us-east-2",
+        "slim_handler": "true"
+    }
+}
