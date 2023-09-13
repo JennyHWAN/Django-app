@@ -297,10 +297,16 @@ reference: IBM Full stack course
     * `docker ps` check the container id and copy it
     * `docker stop [container_id]` # eg. 72bd7003d569
     * `docker restart [container_id]`
-    #### 1. Deploy with IBM Cloud Code Engine (lab5_firstproject-IBM-CE)
-    - Create a project fist, follow the IBM code engine's instruction.
-    - Set up your private IBM's icr [registry](https://cloud.ibm.com/registry/start) which involve some set up on your docker hub. (notyet)
+    
+    **Note:** Refer to docker [doc](https://docs.docker.com/get-started/03_updating_app/) for later update for the image.
+    #### 1. Deploy with IBM Cloud Code Engine (lab5_firstproject-IBM-CE) **(This haven't done yet)**
+    Error: revision failed
 
+    Error message: exec /usr/local/bin/python: exec format error.
+    - Create a project fist, follow the IBM code engine's instruction.
+    - Push your image to your docker hub.
+    - Set up your private IBM's icr [registry](https://cloud.ibm.com/registry/start). 
+    
 
     #### 2. Deploy with AWS Lambda / Zappa (lab5_firstproject-zappa-deploy)
     - Next, we are supposed to use IBM Cloud Code Engine to deploy our app, but since I ran some issue (resolved) to upgrade my IBM account so I use alternative product (whose feedback is not as good as code engine): AWS Lambda's Zappa service. (refer to [geeksforgeeks](https://www.geeksforgeeks.org/how-to-deploy-django-application-in-aws-lambda/))
