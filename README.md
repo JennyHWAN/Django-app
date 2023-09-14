@@ -299,10 +299,12 @@ reference: IBM Full stack course
     * `docker restart [container_id]`
     
     **Note:** Refer to docker [doc](https://docs.docker.com/get-started/03_updating_app/) for later update for the image.
-    #### 1. Deploy with IBM Cloud Code Engine (lab5_firstproject-IBM-CE) **(This haven't done yet)**
+    #### 1. Deploy with IBM Cloud Code Engine (lab5_firstproject-IBM-ce-deploy) **(This haven't done yet)**
     Error: revision failed
 
-    Error message: exec /usr/local/bin/python: exec format error.
+    Error message: exec /usr/local/bin/python: exec format error. (not occur anymore)
+
+    Remain the file for future debug
     - Create a project fist, follow the IBM code engine's instruction.
     - Push your image to your docker hub.
     - Set up your private IBM's icr [registry](https://cloud.ibm.com/registry/start). 
@@ -315,12 +317,89 @@ reference: IBM Full stack course
         $ curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
         $ sudo installer -pkg AWSCLIV2.pkg -target /
         ```
-    * Follow aws's [doc](https://docs.aws.amazon.com/singlesignon/latest/userguide/get-started-assign-account-access-admin-user.html) to create a IAM Identity Center's user. Remember to follow best practice, don't create access keys in your root user! Enter your [AdministratorAccess account](https://docs.aws.amazon.com/signin/latest/userguide/iam-id-center-sign-in-tutorial.html) through your specific sign-in URL, in my case: admin-jennyhuang and select `Command line or programmatic access` shown below, then configure your credential through the instructions.
+    * Follow aws's [doc](https://docs.aws.amazon.com/singlesignon/latest/userguide/get-started-assign-account-access-admin-user.html) to create a IAM Identity Center's user. Remember to follow best practice, don't create access keys in your root user! Enter your [AdministratorAccess account](https://docs.aws.amazon.com/signin/latest/userguide/iam-id-center-sign-in-tutorial.html) through your specific sign-in URL, in my case: [admin-jennyhuang](https://urldefense.proofpoint.com/v2/url?u=https-3A__d-2D9a67081ffa.awsapps.com_start_&d=DwMFaQ&c=slrrB7dE8n7gBJbeO0g-IQ&r=at2QuMIgtWhdZJm6Kxl4_A&m=TN68DBs-ZV9SQW9CCcb2AX9lO-L1_3cUFw_A-uRDaNy5HDJFQQwHIwIwGsvQQwi2&s=D9LLB44zLnGQAkxkYiGgYbnhiDsSOk07mSRjBme_8yY&e=) and select `Command line or programmatic access` shown below, then configure your credential through the instructions.
     ![img](/admin-jennyhuang-console.png)
     * Run the AWS IAM Identity Center credentials (Recommended) && Option1. For Option 1, I created `aws-credentials.sh` and run `bash aws-credentials.sh` to create a session. Then you could run [AWS CLI](https://repost.aws/knowledge-center/s3-locate-credentials-error) through `aws configure list` to check your credential.
 
         **[Note](https://github.com/Zappa/Zappa#custom-aws-iam-roles-and-policies-for-deployment):** You can specify which local profile to use for deploying your Zappa application by defining the profile_name setting, which will correspond to a profile in your AWS credentials file that you just created, something like `aws s3 ls --profile AdministratorAccess-394349669210-as-admin-jennyhuang`
     - If some errors occurred, solve them while they come, as for me, I need to change the `s3_bucket` name to a less popular one in `zappa_settings.json` file, and DONT forget to add your domain name afterward in `settings.ALLOWED_HOSTS`, since we haven't setup CICD pipeline, we need to run `zappa update dev` afterward.
     - Then run `zappa deploy dev` to deploy.
-    - Voilà, enjoy your own website `https://jqugqvg6g0.execute-api.us-east-2.amazonaws.com/dev/test`
+    - Voilà, enjoy your own website `https://jqugqvg6g0.execute-api.us-east-2.amazonaws.com/dev/firstapp/test`, to undeploy, run `zappa undeploy dev`
     - **TODO:** Try to figure out how to deploy AWS [CICD](https://docs.aws.amazon.com/whitepapers/latest/docker-on-aws/cicd.html).
+
+## Lab6_admin
+**Description: Django admin site**
+
+reference: IBM full stack course
+
+**Concepts:** 
+
+1. <span style='color:orange'>Django admin site:</span> A built-in feature of the Django web framework that serves as an interface and allows authorized users to perform various management operations on the data stored in the application’s database.
+
+2. <span style='color:orange'>Superuser:</span> A user account with administrative privileges that allows superusers to perform administrative tasks and manage the application’s data.
+
+3. <span style='color:orange'>Admin class:</span> A class that helps fine-tune the behavior, appearance, and functionality of models within the Django admin site.
+
+4. <span style='color:orange'>Inline class:</span> Allow you to include related model instances in the same page/form as the parent model, instead of switching between different forms or screens.
+
+**Instructions:**
+- Install must-have pkgs before setup the env to access postgres:
+    ```
+    pip install --upgrade distro-info
+    pip3 install --upgrade pip==23.2.1
+    ```
+- Install the `Psycopg` adapter:
+    ```
+    pip install psycopg2-binary==2.9.7
+    ```
+- Source for this lab:
+    ```
+    $ wget "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-CD0251EN-SkillsNetwork/labs/m4_django_app/lab2_template.zip"  
+    $ unzip lab2_template.zip
+    $ rm lab2_template.zip
+    $ mv lab2_template lab6_admin
+    ```
+- As usual:
+    ```
+    pip install virtualenv
+    virtualenv djangoenv
+    source djangoenv/bin/activate
+    pip install -r requirements.txt
+    ```
+- Change the `myproject/settings.DATABASES`
+- Perform migrations to create necessary tables and create superuser:
+    ```
+    python3 manage.py makemigrations
+    python3 manage.py migrate
+    python3 manage.py createsuperuser
+    ```
+- Register models with admin site in `adminsite/admin.py`:
+    ```
+    admin.site.register(Course)
+    admin.site.register(Instructor)
+    ```
+    Then add the instructor and course, which will store in your local database but I don't know how to retrive the image file to preview. (pending solve)
+- Adding classes inside `adminsite/admin.py` for only including some of the model fields in the admin site. Adding `Inline` classes to associate related objs on a single model managing page. In this case, we add `Lesson` model together with `Course` model on `Course` admin page.
+
+## Lab7_onlinecourse
+**Description:** Create function-based views to handle HTTP requests and return HTTP responses and create templates for rendering HTML pages.
+
+- Download a code template for this lab:
+    ```
+    $ wget "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-CD0251EN-SkillsNetwork/labs/m4_django_app/lab3_template.zip"
+    $ unzip lab3_template.zip
+    $ rm lab3_template.zip
+    $ mv lab3_template lab7_onlinecourse
+    $ cd lab7_onlinecourse
+    $ virtualenv env
+    $ source env/bin/activate
+    $ pip install -U -r requirements.txt
+    ```
+- For this lab, we use SQLite, SQLite is a file-based embedding database with some course data pre-loaded. Thus you don't need to use Model APIs or admin site to populate data by yourself and can focus on creating views and templates. So activate the models for the `onlinecourse` app:
+    ```
+    python3 manage.py makemigrations
+    python3 manage.py migrate
+    ```
+- Add `popular_course_list` view in `onlinecourse/views.py` by adding template in `onlinecourse/templates/onlinecourse/course_list.html`, then add a route path for the `popular_course_list` view in `onlinecourse/urls.py`. Then run `python3 manage.py runserver`
+- Modify `onlinecourse/views.py`, `onlinecourse/templates/onlinecourse/course_detail.html` for more features.
+- Include `css` file in `onlinecourse/templates/onlinecourse/course_list.html`.
