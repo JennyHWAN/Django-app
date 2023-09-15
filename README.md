@@ -429,3 +429,24 @@ reference: IBM full stack course
     **Note:** For the view argument, we actually added the `as_view()` method for CourseListView class. For function-based view, we use the view function name
     directly in view argument.
 - Next, we need to configure the route for the `CourseListView`, `EnrollView` and `CourseDetailsView`.
+
+## Lab9_auth
+**Description:** Django authentication system, create views and templates for user login and logout, create views and templates for user registration.
+
+- Import the template:
+    ```
+    $ wget "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-CD0251EN-SkillsNetwork/labs/m5_django_advanced/lab2_template.zip"
+    $ unzip lab2_template.zip
+    $ rm lab2_template.zip
+    $ mv lab2_template /Users/jennyhuang/Documents/self-learning/IBM-full-stack-coursera/Django-app
+    $ cd lab9_auth
+    $ virtualenv env
+    $ source env/bin/activate
+    $ pip install -r requirements.txt
+    $ python3 manage.py makemigrations
+    $ python3 manage.py migrate
+    $ python3 manage.py runserver
+    $ python3 manage.py createsuperuser
+    ```
+- Inside `templates/onlinecourse`, add authentication section to verify user id and create a dropdown logout button or login button.
+- In `templates/onlinecourse/user_login` and `templates/onlinecourse/user_registration` add a login/register form which will send a post request to login/register and add `logout_request`, `login_request`, `registration_request` view. Configure a route for their views by adding a path entry in `urlpatterns`.
