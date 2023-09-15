@@ -403,3 +403,29 @@ reference: IBM full stack course
 - Add `popular_course_list` view in `onlinecourse/views.py` by adding template in `onlinecourse/templates/onlinecourse/course_list.html`, then add a route path for the `popular_course_list` view in `onlinecourse/urls.py`. Then run `python3 manage.py runserver`
 - Modify `onlinecourse/views.py`, `onlinecourse/templates/onlinecourse/course_detail.html` for more features.
 - Include `css` file in `onlinecourse/templates/onlinecourse/course_list.html`.
+    
+    **Note:** Full-stack Django dev cheatsheet refer to: [coursera](https://www.coursera.org/learn/developing-applications-with-sql-databases-and-django/supplement/dqK5n/module-3-cheat-sheet-full-stack-django-development).
+
+## Lab8_cbv
+**Description:** Create class-based views to handle HTTP requests and send HTTP responses.
+
+- As usual, download the lab meterial, also we use SQLite for this lab:
+    ```
+    $ wget "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-CD0251EN-SkillsNetwork/labs/m5_django_advanced/lab1_template.zip"
+    $ unzip lab1_template.zip
+    $ rm lab1_template.zip
+    $ mv lab1_template /Users/jennyhuang/Documents/self-learning/IBM-full-stack-coursera/Django-app
+    $ cd lab8_cbv
+    $ virtualenv env
+    $ source env/bin/activate
+    $ pip install -r requirements.txt
+    $ python3 manage.py makemigrations
+    $ python3 manage.py migrate
+    ```
+
+    **Note:** For previous lab, we only created function-based views.
+- Then modify `onlinecourse/views.py`, refer that file for detail.
+    
+    **Note:** For the view argument, we actually added the `as_view()` method for CourseListView class. For function-based view, we use the view function name
+    directly in view argument.
+- Next, we need to configure the route for the `CourseListView`, `EnrollView` and `CourseDetailsView`.
