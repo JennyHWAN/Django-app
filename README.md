@@ -450,3 +450,21 @@ reference: IBM full stack course
     ```
 - Inside `templates/onlinecourse`, add authentication section to verify user id and create a dropdown logout button or login button.
 - In `templates/onlinecourse/user_login` and `templates/onlinecourse/user_registration` add a login/register form which will send a post request to login/register and add `logout_request`, `login_request`, `registration_request` view. Configure a route for their views by adding a path entry in `urlpatterns`.
+## Lab10_bootstrap
+**Description:** Integration bootstrap front-end lib into django templates.
+
+- Download the lab resource:
+    ```
+    $ wget "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-CD0251EN-SkillsNetwork/labs/m5_django_advanced/lab3_template.zip
+    $ unzip lab3_template.zip
+    $ rm lab3_template.zip
+    $ mv lab3_template.zip lab10_bootstrap
+    $ mv lab10_bootstrap /Users/jennyhuang/Documents/self-learning/IBM-full-stack-coursera/Django-app
+    $ virtualenv env
+    $ source env/bin/activate
+    $ pip install -r requirements.txt
+    $ python3 manage.py makemigrations
+    $ python3 manage.py migrate
+    $ python3 manage.py runserver
+    ```
+- Modify each html file's header in `templates/onlinecourse` folder.
