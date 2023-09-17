@@ -468,3 +468,80 @@ reference: IBM full stack course
     $ python3 manage.py runserver
     ```
 - Modify each html file's header in `templates/onlinecourse` folder.
+
+## Final_project
+**Description:** Your organization is consolidating different platforms and wants to store customer communication records in a central location. As a software engineer, you are tasked to develop this Customer360 application using Django.
+
+#### First part of the final project:
+- Ensure the pip is installed:
+    ```
+    $ python3 -m ensurepip
+    $ python3 -m pip install Django
+    $ django-admin startproject customer360
+    $ cd customer360
+    $ python3 manage.py migrate
+    $ python3 manage.py runserver
+    ```
+- Modify `settings.py`
+- Create `models.py`
+- Add a few html files that will show our models and let users interact with the app.
+    ```
+    $ mkdir /home/project/customer360/customer360/templates
+    $ touch /home/project/customer360/customer360/templates/add.html
+    $ touch /home/project/customer360/customer360/templates/base.html
+    $ touch /home/project/customer360/customer360/templates/index.html
+    $ touch /home/project/customer360/customer360/templates/interact.html
+    $ touch /home/project/customer360/customer360/templates/summary.html
+    $ touch /home/project/customer360/customer360/views.py
+    $ mkdir -p /home/project/customer360/static/css
+    $ touch /home/project/customer360/static/css/main.css
+    ```
+- Run the app:
+    ```
+    $ cd /home/project/customer360
+    $ python3.11 manage.py makemigrations customer360
+    $ python3.11 manage.py migrate
+    $ python3.11 manage.py runserver
+    ```
+#### Second part of the final project:
+- Clone the remot repo:
+    ```
+    [ ! -d 'tfjzl-final-cloud-app-with-database' ] && git clone https://github.com/ibm-developer-skills-network/tfjzl-final-cloud-app-with-database.git
+    ```
+- As usual:
+    ```
+    virtualenv env
+    source env/bin/activate
+    pip install -U -r requirements.txt
+    ```
+- Create the initial migrations and generate the database schema:
+**Migrations** are Django's way of propagating changes you make to your models (adding a field, deleting a model, etc.) into your database schema. They are designed to be mostly automatic, but you will need to know when to make migrations, when to run them, and the common problems you might run into. There are several commands which you will use to interact with migrations and Django's handling of database schema:
+
+    `migrate`, which is responsible for applying and unapplying migrations
+    
+    `makemigrations`, which is responsible for creating new migrations based on the changes you have made to your models
+
+    `sqlmigrate`, which displays the SQL statements for a migration
+
+    `showmigrations`, which lists a project's migrations and their statu
+- In my case, I clone the repo into my own folder and want to push to my own repo:
+    ```
+    $ git remote set-url origin git@github.com:JennyHWAN/Django-app.git
+    $ git remote add origin git@github.com:JennyHWAN/Django-app.git
+    $ git remote get-url --all origin
+    $ git remote set-url --delete origin https://github.com/ibm-developer-skills-network/tfjzl-final-cloud-app-with-database.git
+    ```
+- The following command should be more appropriate in replace of the final delete command above but i can't successfully login
+    ```
+    $ git branch -M main
+    $ git push -u origin main
+    ```
+- Build `Question`, `Choice`, `Submission` models in `onlinecourse/models.py`
+- Import new models (Question, Choice, Submission) to `onlinecourse/admin.py` to be able to use the new features you have built. (Create QuestionInline and ChoiceInline classes so that you could edit them together on one page in the admin site.) Create `QuestionInline` and `ChoiceInline`. Create `QuestionAdmin` class. Finally, register alll of them.
+- Create admin user:
+    ```
+    python3 manage.py createsuperuser
+    python3 manage.py runserver
+    ```
+- Update `templates/onlinecourse/course_details_bootstrap.html` and `exam_result_bootstrap.html` to create an exam section with a list of questions and choices. Some of the syntax detail, like `{% url 'onlinecourse:submit' course.id %}` could be found [here](https://docs.djangoproject.com/en/4.2/intro/tutorial03/)
+- Create `submit`, `show_exam_result` view in `views.py` and route the submit view button in `urls.py`.
